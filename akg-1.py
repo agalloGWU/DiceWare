@@ -7,11 +7,14 @@ import json
 import random # in case we're in testing mode
 import requests
 
-
+# TODO error checking on API call-
+#   Did we get anything returned? (if not, maybe fall back to host PRN?)
+#   Have we been rate limited (if so, report, and maybe fall back)
 # TODO command line arguments for:
 #   different input files
 #   control capitalization (now defaults to initial caps)
 #   number of words
+
 
 def get_random_numbers(test=True):
     '''
