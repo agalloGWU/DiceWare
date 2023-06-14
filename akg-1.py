@@ -8,6 +8,11 @@ import random # in case we're in testing mode
 import requests
 
 
+# TODO command line arguments for:
+#   different input files
+#   control capitalization (now defaults to initial caps)
+#   number of words
+
 def get_random_numbers(test=True):
     '''
     get random numbers from API
