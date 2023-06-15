@@ -47,12 +47,14 @@ while rolls > 0:
    #      4 + 6 + 8 + 6 + 0 = 24; 2 + 4 = 6
    # "data": [424, 46860, 63139, 5946, 62605, 64827]
    for num in data['data']:
-      num_i = str(num)[0]
-      #print(num_i)
+      num_i = str(num)[-1]
+      print(num_i)
       num_i = int(num_i)
       # if digit is larger than 6 then take modulus 6
       if num_i > 6:
          num_i = num_i % 6
+      if num_i == 0:
+         num_i = 6
       # build the index by adding the digit*(10^i)
       index = index + num_i*(10**i)
       i=i+1
@@ -61,5 +63,3 @@ while rolls > 0:
    out = out + words_dict[index].title()
    rolls = rolls - 1
 print(out)
-
-
