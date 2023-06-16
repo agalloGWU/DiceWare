@@ -7,14 +7,16 @@ rolls = 6
 number_of_dice="5"
 type = "uint16"  # 0 - 65535 - 5 random numbers between 0 and 65535
 url = "https://api.quantumnumbers.anu.edu.au?length="+number_of_dice+"&type="+type
-header_content = '{"x-api-key": "hPPHuwVZdf919sIdtumYd7pq2HqXz1dS2qeAgz1t"}'  # free api
-#header_content = '{"x-api-key": "QMIuR2VKZ18PllJOlaXES3QLuwSit0II64v0l0vx"}'  # pay $0.0005 / request
+#header_content = '{"x-api-key": "hPPHuwVZdf919sIdtumYd7pq2HqXz1dS2qeAgz1t"}'  # free api
+header_content = '{"x-api-key": "QMIuR2VKZ18PllJOlaXES3QLuwSit0II64v0l0vx"}'  # pay $0.0005 / request
 header_content = dict(json.loads(header_content))
 
 # use a diceware wordlist and put them in a dictionary
-wordlist = requests.get("https://theworld.com/~reinhold/diceware.wordlist.asc")
+#wordlist = requests.get("https://theworld.com/~reinhold/diceware.wordlist.asc")
+ro_wordlist = requests.get("https://raw.githubusercontent.com/danciu/diceware.ro/master/lists/diceware-ro-ascii-6.txt")
 words_dict={}
 
+#print(ro_wordlist.text)
 # the strings come in binary enconding, decode it to UTF-8
 # create the dictionary of words mappings
 # 11111 a     -> 11111: a
@@ -22,7 +24,8 @@ words_dict={}
 # ...            ...
 # 12255 anita -> 12255: anita
 # ...
-for line in wordlist.iter_lines():
+for line in ro_wordlist.iter_lines():
+   #print(line)
    line = line.decode('UTF-8')
    if line != "" and str(line)[0].isdigit():
       words_dict.update({line.split("\t")[0]:line.split("\t")[1]})
@@ -47,12 +50,14 @@ while rolls > 0:
    #      4 + 6 + 8 + 6 + 0 = 24; 2 + 4 = 6
    # "data": [424, 46860, 63139, 5946, 62605, 64827]
    for num in data['data']:
-      num_i = str(num)[0]
+      num_i = str(num)[-1]
       #print(num_i)
       num_i = int(num_i)
       # if digit is larger than 6 then take modulus 6
       if num_i > 6:
          num_i = num_i % 6
+      if num_i == 0:
+         num_i = 6
       # build the index by adding the digit*(10^i)
       index = index + num_i*(10**i)
       i=i+1
